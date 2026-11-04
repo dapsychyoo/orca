@@ -268,6 +268,7 @@ function MobileNativeChatMessageImpl({
     ) : (
       <Prose
         key={key}
+        rowKey={textKey}
         block={block}
         userMessage={isUser}
         fontScale={fontScale}
@@ -284,7 +285,6 @@ function MobileNativeChatMessageImpl({
     blocks.map((block, index) => proseRow(block, index, Chat.isTextBlock(block) ? block.text : ''))
   return (
     <>
-      {}
       {turnStatusAbove ? statusRow : null}
       <View
         style={[styles.row, isUser && styles.rowUser]}
