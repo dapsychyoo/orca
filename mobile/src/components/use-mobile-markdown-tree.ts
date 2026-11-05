@@ -10,13 +10,17 @@ const NO_DIRECTIVES: NativeChatVisualDirective[] = []
 export function useMobileMarkdownTree(
   text: string,
   visuals: boolean,
-  growing: boolean
+  growing: boolean,
+  chatMath: boolean
 ): { root: Root; directives: NativeChatVisualDirective[] } {
   const visualLines = useMemo(
     () => (visuals ? protectMobileMarkdownVisualLines(text) : null),
     [text, visuals]
   )
   const source = visualLines?.text ?? text
-  const root = useMemo(() => parseMobileMarkdownTree(source, growing), [source, growing])
+  const root = useMemo(
+    () => parseMobileMarkdownTree(source, growing, chatMath),
+    [source, growing, chatMath]
+  )
   return { root, directives: visualLines?.directives ?? NO_DIRECTIVES }
 }

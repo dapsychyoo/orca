@@ -135,7 +135,7 @@ function MobileNativeChatPermissionContext({
       ) : null}
       {isPlanApprovalSubject(permission.subject) ? (
         <View>
-          <MobileMarkdown content={permission.subject.text} />
+          <MobileMarkdown content={permission.subject.text} chatMath />
           {permission.subject.filePath ? (
             <Text style={styles.planFile}>
               {t('chat.permission.planFile', 'Plan file: {{filePath}}', {

@@ -119,6 +119,7 @@ export function MobileNativeChatReasoningBody({
     >
       <MobileNativeChatLongPressContent onLongPress={onLongPress} style={styles.reasoning}>
         <MobileMarkdown
+          chatMath
           content={markdown}
           rangeSelectable
           textScale={CHAT_PROSE_SCALE * fontScale}

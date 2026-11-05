@@ -105,6 +105,7 @@ export function Prose({
     if (userMessage) {
       return (
         <MobileMarkdown
+          chatMath
           content={text}
           tone="userMessage"
           rangeSelectable
@@ -117,6 +118,7 @@ export function Prose({
     }
     return (
       <MobileMarkdown
+        chatMath
         content={
           renderVisual && (growing || revealing)
             ? withoutPendingNativeChatVisualDirectiveTail(text)

@@ -251,6 +251,7 @@ export function MobileNativeChatNoticeRow({
         <View style={styles.card}>
           <Text style={styles.planTitle}>{copy.plan}</Text>
           <MobileMarkdown
+            chatMath
             content={notice.text}
             rangeSelectable
             textScale={fontScale}

@@ -26,6 +26,9 @@ type Props = {
   renderVisual?: (directive: NativeChatVisualDirective, index: number) => ReactNode
   // Close incomplete streaming markup like desktop; diagrams remain code until text stops.
   growing?: boolean
+  /** Chat's math delimiters, `\(…\)` and `\[…\]` as well as `$`, as desktop chat reads them.
+   *  GitHub text (PRs, Tasks, files) leaves them off, so `\[Bug\]` stays a bracket. */
+  chatMath?: boolean
   /** The surface under the text: `userMessage` inside your own message's bubble. */
   tone?: keyof typeof MARKDOWN_TONES
 }
@@ -39,13 +42,19 @@ function MobileMarkdownContent({
   renderVisual,
   renderImage,
   growing = false,
+  chatMath = false,
   tone: toneName = 'default'
 }: Props) {
   useMobileColorScheme()
   // Interactive children own their touches and must forward the row action.
   const setup = useContext(MarkdownTextContext)
   const text = content?.trim() ?? ''
-  const { root, directives } = useMobileMarkdownTree(text, renderVisual !== undefined, growing)
+  const { root, directives } = useMobileMarkdownTree(
+    text,
+    renderVisual !== undefined,
+    growing,
+    chatMath
+  )
   if (!text) {
     return fallback ? (
       <MarkdownText selectable={rangeSelectable} style={styles.paragraph}>

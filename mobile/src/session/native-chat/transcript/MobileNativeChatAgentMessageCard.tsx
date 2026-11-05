@@ -118,6 +118,7 @@ function CompactAgentMessageCard({
         <View style={styles.compactBody}>
           {attachments}
           <MobileMarkdown
+            chatMath
             content={text}
             rangeSelectable
             textScale={CHAT_PROSE_SCALE * fontScale}
@@ -222,6 +223,7 @@ const PreviewAgentMessageCard = memo(function PreviewAgentMessageCard({
             }}
           >
             <MobileMarkdown
+              chatMath
               content={text}
               rangeSelectable
               textScale={CHAT_PROSE_SCALE * fontScale}
