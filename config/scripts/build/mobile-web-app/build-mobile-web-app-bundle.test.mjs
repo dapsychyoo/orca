@@ -205,32 +205,30 @@ describe('the Phase C budget', () => {
     )
     const manifest = { totalBytes: font.byteLength + 123, assets: [font] }
     expect(mobileWebAppBundleBudgetBytes(manifest)).toBe(123)
-    expect(
-      mobileWebAppBundleBudgetBytes({
-        ...manifest,
-        totalBytes: font.byteLength + MOBILE_WEB_APP_BUNDLE_MAX_TOTAL_BYTES + 1
-      })
-    ).toBeGreaterThan(MOBILE_WEB_APP_BUNDLE_MAX_TOTAL_BYTES)
     expect(mobileWebAppBundleBudgetBytes({ totalBytes: 123, assets: [] })).toBe(123)
+    // Any other font, or a changed terminal font, weighs against the budget like code.
     for (const change of [
       { path: 'assets/another.woff2' },
       { sha256: 'a'.repeat(64) },
       { contentType: 'text/javascript' },
       { byteLength: font.byteLength + 1 }
     ]) {
-      expect(() =>
-        mobileWebAppBundleBudgetBytes({ ...manifest, assets: [{ ...font, ...change }] })
-      ).toThrow(/approved hash, path, MIME type and bounded byte length/)
+      expect(mobileWebAppBundleBudgetBytes({ ...manifest, assets: [{ ...font, ...change }] })).toBe(
+        font.byteLength + 123
+      )
     }
-    expect(() => mobileWebAppBundleBudgetBytes({ ...manifest, assets: [font, font] })).toThrow(
-      /only one licensed terminal font/
-    )
+    const otherFont = {
+      ...font,
+      path: 'assets/katex.woff2',
+      sha256: 'b'.repeat(64),
+      byteLength: 50
+    }
     expect(
       mobileWebAppBundleBudgetBytes({
-        totalBytes: font.byteLength,
-        assets: [{ ...font, path: 'assets/code.js', contentType: 'text/javascript' }]
+        totalBytes: font.byteLength + 50 + 123,
+        assets: [font, otherFont]
       })
-    ).toBe(font.byteLength)
+    ).toBe(50 + 123)
   })
 
   itBundling(
