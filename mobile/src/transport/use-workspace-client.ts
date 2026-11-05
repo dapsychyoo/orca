@@ -4,8 +4,6 @@ import { useHostClient } from './host-client-hooks'
 import type { RpcClient } from './rpc-client'
 import { useRouteRelays, WorkspaceServerContext } from './workspace-server-context'
 
-export { WorkspaceServerContext } from './workspace-server-context'
-
 /** The route's host has the capability; a relayed route also needs the paired desktop to forward it. */
 export function useRouteCapability(capability: string): boolean {
   const { hostCapabilities } = useHostProtocolGates()
