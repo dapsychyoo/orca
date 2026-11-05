@@ -3,7 +3,6 @@ import cjkFriendly from 'markdown-it-cjk-friendly'
 import footnote from 'markdown-it-footnote'
 import type {
   AlignType,
-  Code,
   Nodes,
   Paragraph,
   Parent,
@@ -13,6 +12,7 @@ import type {
   Table
 } from 'mdast'
 import remend from 'remend'
+import { codeNode } from './mobile-markdown-code-nodes'
 import { appendHtmlBlock, noteInlineHtml, popContainer } from './mobile-markdown-details'
 import { mobileMarkdownMath } from './mobile-markdown-math'
 import {
@@ -140,28 +140,6 @@ function phrasing(
   return { nodes, next: index }
 }
 
-/** Whether a code block's closing fence has arrived; an unclosed one is still streaming in. */
-export function codeFenceClosed(node: Code): boolean {
-  return !('closed' in node) || node.closed !== false
-}
-
-function codeNode(token: Token, lines: readonly string[]): Code & { closed: boolean } {
-  if (token.type !== 'fence') {
-    return { type: 'code', lang: null, value: token.content.replace(/\n$/, ''), closed: true }
-  }
-  const [start, end] = token.map ?? [0, 0]
-  // A fence inside a quote carries the quote's marker on its closing line.
-  const closing = end - start > 1 ? (lines[end - 1] ?? '').replace(/^[\s>]*/, '').trim() : ''
-  return {
-    type: 'code',
-    lang: token.info.trim().split(/\s+/)[0] || null,
-    value: token.content.replace(/\n$/, ''),
-    closed:
-      closing.length >= token.markup.length &&
-      [...closing].every((char) => char === token.markup[0])
-  }
-}
-
 function alignOf(token: Token): AlignType {
   const align = /text-align:\s*(left|right|center)/.exec(token.attrGet('style') ?? '')?.[1]
   return align === 'left' || align === 'right' || align === 'center' ? align : null
@@ -266,11 +244,12 @@ function toTree(tokens: readonly Token[], source: string): Root {
         break
       default:
         if (CLOSING_TOKENS.has(token.type)) {
+          const container = stack.at(-2)
           const closed = popContainer(stack)
           if (closed?.type === 'listItem') {
             readTaskMarker(closed)
-          } else if (closed?.type === 'paragraph') {
-            displayFormulas(stack.at(-1)!, closed as Paragraph)
+          } else if (closed?.type === 'paragraph' && container) {
+            displayFormulas(container, closed as Paragraph)
           }
         }
     }
