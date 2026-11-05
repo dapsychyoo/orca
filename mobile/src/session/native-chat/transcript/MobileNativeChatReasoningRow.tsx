@@ -87,6 +87,7 @@ export function MobileNativeChatReasoningRow({
         <MobileNativeChatReasoningBody
           positionKey={nativeChatReasoningDisclosureKey(message.id)}
           markdown={markdown}
+          streaming={live}
           fontScale={fontScale}
           onOpenFile={onOpenFile}
           onLongPress={onLongPress}
@@ -100,12 +101,15 @@ export function MobileNativeChatReasoningRow({
 export function MobileNativeChatReasoningBody({
   positionKey,
   markdown,
+  streaming = false,
   fontScale,
   onOpenFile,
   onLongPress
 }: {
   positionKey: string
   markdown: string
+  /** The turn is live, so the text may end mid-path. */
+  streaming?: boolean
   fontScale: number
   onOpenFile?: (relativePath: string) => void
   onLongPress?: () => void
@@ -120,6 +124,7 @@ export function MobileNativeChatReasoningBody({
       <MobileNativeChatLongPressContent onLongPress={onLongPress} style={styles.reasoning}>
         <MobileMarkdown
           content={markdown}
+          streaming={streaming}
           rangeSelectable
           textScale={CHAT_PROSE_SCALE * fontScale}
           onOpenFile={onOpenFile}
