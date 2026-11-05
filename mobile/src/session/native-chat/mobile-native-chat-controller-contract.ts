@@ -23,6 +23,7 @@ import type {
 } from './mobile-native-chat-send'
 import type { MobileNativeChatCommandRefusalCauses } from './use-mobile-native-chat-send-error'
 import type { MobileStructuredQueuedMessageControls } from '../use-mobile-structured-queued-message-controls'
+import type { MobileStructuredThreadGoal } from '../use-mobile-structured-thread-goal'
 import type { MobileStructuredBackgroundTasks } from '../use-mobile-structured-background-tasks'
 import type { MobileNativeChatPendingMessage } from './mobile-native-chat-pending-echo'
 import type { useMobileNativeChatSession } from './use-mobile-native-chat-session'
@@ -93,6 +94,7 @@ export type MobileNativeChatController = {
   handleNativeChatStop: () => void
   nativeChatQueued: MobileStructuredQueuedMessageControls
   nativeChatBackgroundTasks: MobileStructuredBackgroundTasks | null
+  nativeChatThreadGoal: MobileStructuredThreadGoal | null
   nativeChatFilePaths: string[]
   loadNativeChatFiles: (query: string) => void
   nativeChatSkills: NativeChatSkillDiscoverySnapshot

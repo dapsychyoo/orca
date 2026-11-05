@@ -586,6 +586,22 @@
       "byteSize": "{{size}} octets",
       "saveUpdate": "L’enregistrement sera disponible dans une mise à jour du téléphone.",
       "fullCopySaveUpdate": "La copie intégrale et l’enregistrement de cette pièce jointe seront disponibles dans une mise à jour du téléphone."
+    },
+    "goal": {
+      "chip": "Objectif",
+      "exitMode": "Quitter le mode objectif",
+      "placeholder": "Décrivez votre objectif, définissez des résultats mesurables pour de meilleurs résultats",
+      "pursuing": "Objectif en cours",
+      "set": "Objectif défini",
+      "paused": "Objectif suspendu",
+      "blocked": "Objectif bloqué",
+      "limited": "Objectif limité",
+      "clear": "Effacer l'objectif",
+      "expand": "Afficher l'objectif complet",
+      "collapse": "Masquer l'objectif complet",
+      "attachmentsUnsupported": "Supprimez les pièces jointes avant de définir un objectif.",
+      "pause": "Mettre en pause",
+      "resume": "Reprendre"
     }
   },
   "common": {

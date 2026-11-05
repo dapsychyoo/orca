@@ -586,6 +586,22 @@
       "byteSize": "{{size}} bytes",
       "saveUpdate": "Guardar estará disponible en una actualización del teléfono.",
       "fullCopySaveUpdate": "Copiar todo y Guardar para este adjunto estarán disponibles en una actualización del teléfono."
+    },
+    "goal": {
+      "chip": "Objetivo",
+      "exitMode": "Salir del modo objetivo",
+      "placeholder": "Describe tu objetivo y define resultados medibles para obtener mejores resultados",
+      "pursuing": "Objetivo en curso",
+      "set": "Objetivo establecido",
+      "paused": "Objetivo en pausa",
+      "blocked": "Objetivo bloqueado",
+      "limited": "Objetivo limitado",
+      "clear": "Borrar objetivo",
+      "expand": "Mostrar objetivo completo",
+      "collapse": "Ocultar objetivo completo",
+      "attachmentsUnsupported": "Elimina los adjuntos antes de establecer un objetivo.",
+      "pause": "Pausar",
+      "resume": "Reanudar"
     }
   },
   "common": {

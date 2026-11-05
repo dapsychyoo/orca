@@ -114,7 +114,7 @@ export function useMobileStructuredOptionState(args: {
     [contextKey, client]
   )
   // Projected once per accepted answer so consumers keep stable references between answers.
-  const { conversationSupport, imageSupport } = useMemo(
+  const { conversationSupport, imageSupport, threadGoalSupport } = useMemo(
     () =>
       support && support.sessionId !== null
         ? {
@@ -127,9 +127,14 @@ export function useMobileStructuredOptionState(args: {
               sessionId: support.sessionId,
               acceptsImages: support.result.acceptsImages,
               statesPermissionMode: support.result.current?.permissionMode !== undefined
+            },
+            threadGoalSupport: {
+              sessionId: support.sessionId,
+              support: support.result.threadGoal,
+              reported: support.result.reportedThreadGoal
             }
           }
-        : { conversationSupport: null, imageSupport: null },
+        : { conversationSupport: null, imageSupport: null, threadGoalSupport: null },
     [support]
   )
   useEffect(
@@ -198,6 +203,7 @@ export function useMobileStructuredOptionState(args: {
     projectRuntimeReports,
     conversationSupport,
     imageSupport,
+    threadGoalSupport,
     controller,
     reread,
     receiveCatalog,
