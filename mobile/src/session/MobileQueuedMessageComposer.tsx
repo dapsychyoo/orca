@@ -103,8 +103,8 @@ export function MobileQueuedMessageComposer({
                 ...context.structured,
                 files: files.files,
                 onAttachFiles: () => void files.attachFiles(),
-                ...(context.structured.onAttachPastedText
-                  ? { onAttachPastedText: (text: string) => void files.attachPastedText(text) }
+                ...(context.structured.onAttachPastedText && files.attachPastedText
+                  ? { onAttachPastedText: files.attachPastedText }
                   : {}),
                 onRemoveFile: (id) => files.removeFiles([id])
               }
