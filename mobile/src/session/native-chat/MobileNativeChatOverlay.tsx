@@ -20,7 +20,6 @@ import { nativeChatAskRequiresTerminal } from '../../../../src/shared/native-cha
 import { tuiAgentDisplayName } from '../../../../src/shared/agent-launch/catalog/tui-agent-display-names'
 import { MobileNativeChatNoticeContext } from '../mobile-native-chat-notice-context'
 import type { MobileNativeChatImageSource } from './visual/mobile-native-chat-image-preview'
-import { NATIVE_CHAT_INTERRUPTED_CONTINUE_FAILED_COPY } from '../../../../src/shared/native-chat/native-chat-interrupted-continue'
 import { useMobileTranslation } from '../../i18n/use-mobile-translation'
 
 type Props = {
@@ -281,7 +280,7 @@ export function MobileNativeChatOverlay({
                       continueFailed
                         ? t(
                             'chat.interruptedContinue.failed',
-                            NATIVE_CHAT_INTERRUPTED_CONTINUE_FAILED_COPY
+                            "Couldn't continue this chat. Try again, or send a message."
                           )
                         : sendErrorMessage
                     }
