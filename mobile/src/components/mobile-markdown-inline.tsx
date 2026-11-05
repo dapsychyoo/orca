@@ -11,6 +11,7 @@ import { routeMarkdownHref } from './markdown-href-routing'
 import { styles, type MarkdownTone } from './mobile-markdown-styles'
 import { MarkdownText } from './mobile-markdown-text'
 import { plainText } from './mobile-markdown-tree'
+import { MobileMarkdownMath } from './MobileMarkdownMath'
 
 export type MarkdownInlineContext = {
   // File targets call this when viewer exists; omit to keep paths plain.
@@ -133,6 +134,16 @@ function renderPhrasing(
         </MarkdownText>
       )
     }
+    case 'inlineMath':
+      return (
+        <MobileMarkdownMath
+          key={key}
+          value={node.value}
+          source={node.source}
+          display={false}
+          style={outer}
+        />
+      )
     case 'link':
       return renderLink(key, plainText(node), node.url, ctx, outer)
     case 'image':

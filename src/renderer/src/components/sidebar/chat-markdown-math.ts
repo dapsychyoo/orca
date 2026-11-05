@@ -11,6 +11,12 @@ import type {
 } from 'micromark-util-types'
 import type { Processor } from 'unified'
 import type { VFile } from 'vfile'
+import {
+  isCitationBracketMath,
+  markdownMathCloser,
+  rejectsSingleDollarClose,
+  rejectsSingleDollarOpen
+} from '../../../../shared/markdown-math-rules'
 import { chatMathFromMarkdown, transformChatMath } from './chat-markdown-math-nodes'
 
 declare module 'micromark-util-types' {
@@ -27,7 +33,6 @@ declare module 'micromark-util-types' {
 }
 
 const lineEnding = (code: Code): boolean => code !== null && code < -2
-const whitespace = (code: Code): boolean => code === null || code < 0 || code === 32
 const digit = (code: Code): boolean => code !== null && code >= 48 && code <= 57
 
 type ExhaustedSearch = { from: number; to: number; last: Map<number, number> }
@@ -101,13 +106,10 @@ function construct(flow: boolean): Construct {
         }
         opener += String.fromCharCode(code)
         effects.consume(code)
-        closer = code === 91 ? '\\]' : '\\)'
-      } else {
-        if (flow && opener.length < 2) {
-          return nok(code)
-        }
-        closer = opener
+      } else if (flow && opener.length < 2) {
+        return nok(code)
       }
+      closer = markdownMathCloser(opener)
       effects.exit('chatMathMarker')
       token.chatMath = { opener, closer, flow, closed: false }
       family = opener.startsWith('$') && opener.length > 1 ? '$$' : opener
@@ -123,7 +125,8 @@ function construct(flow: boolean): Construct {
       return opener.startsWith('$') ? afterOpen(code) : between
     }
     function afterOpen(code: Code): State | undefined {
-      if (opener === '$' && whitespace(code)) {
+      const next = code === null ? undefined : code < 0 ? ' ' : String.fromCharCode(code)
+      if (opener === '$' && rejectsSingleDollarOpen(next)) {
         return nok(code)
       }
       return between(code)
@@ -174,13 +177,7 @@ function construct(flow: boolean): Construct {
         body += '$'.repeat(closeSize)
         return between(code)
       }
-      if (
-        opener === '$' &&
-        (/\s/.test(body.at(-1) ?? '') ||
-          digit(code) ||
-          (/^[+-]?\d[\d,]*(?:\.\d+)?(?:[^\p{ASCII}]|\s)/u.test(body) &&
-            !/[\\_^=<>+*/{}-]/.test(body)))
-      ) {
+      if (opener === '$' && rejectsSingleDollarClose(body, digit(code))) {
         return nok(code)
       }
       effects.exit('chatMathMarker')
@@ -228,7 +225,7 @@ function construct(flow: boolean): Construct {
       return data
     }
     function finish(code: Code): State | undefined {
-      if ((!flow && !token.chatMath?.closed) || (opener === '\\[' && /^[\d\s,]+$/.test(body))) {
+      if ((!flow && !token.chatMath?.closed) || isCitationBracketMath(opener, body)) {
         return nok(code)
       }
       effects.exit('chatMath')
