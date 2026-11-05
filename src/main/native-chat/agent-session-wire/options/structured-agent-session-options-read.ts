@@ -5,9 +5,10 @@ import {
   independentAgentModelCatalog,
   usesModelSpecificAcpEfforts
 } from '../../../../shared/agent-session/options/agent-model-catalog-ownership'
-import { readStructuredAgentSessionOptionsAtRest } from './structured-agent-session-resting-options'
-
-import type { StructuredAgentSessionOptionsReader } from './structured-agent-session-resting-options'
+import {
+  readStructuredAgentSessionOptionsAtRest,
+  type StructuredAgentSessionOptionsReader
+} from './structured-agent-session-resting-options'
 
 import { structuredAgentSessionThreadGoalReport } from '../operations/structured-agent-session-thread-goal'
 // Saved choices, catalog defaults and actual execution reports remain separate facts.
@@ -17,10 +18,10 @@ import type {
   AgentSessionAcceptedInputSources
 } from '../../../../shared/agent-session/options/agent-session-options-result'
 import { journalOpenReadRefusal } from '../../agent-session-journal/journal-open-failure'
-import type { StructuredAgentSessionLiveOptions } from './structured-agent-session-option-models'
 import {
   confirmedCurrentOptions,
   structuredAgentSessionCapabilityView,
+  type StructuredAgentSessionLiveOptions,
   type StructuredAgentSessionRestingOptions as RestingOptions
 } from './structured-agent-session-option-models'
 import { structuredAgentSessionImmediatePermission } from './structured-agent-session-launch-permission'
