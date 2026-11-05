@@ -367,10 +367,7 @@ export function MobileNativeChatView({
       >
         {lockReason === 'waiting' ? composerPlaceholder : null}
       </Text>
-      <MobileNativeChatSendErrorBanner
-        message={sendErrorMessage ?? null}
-        onDismiss={onDismissSendError}
-      />
+      <MobileNativeChatSendErrorBanner message={sendErrorMessage} onDismiss={onDismissSendError} />
       {trayContent}
       <View style={promptOwnsInput ? styles.hidden : undefined}>
         <MobileNativeChatDraftComposer
